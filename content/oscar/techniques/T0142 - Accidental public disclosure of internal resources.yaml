@@ -1,12 +1,12 @@
-id: 142
+id: T0142
 type: Technique
 
 tactic: Reconnaissance
 
 realm: 
-	- CloudSecurity
+  - CloudSecurity
 
-summary: # REQUIRED - <key:value>
+summary: Accidental public disclosure of internal resources
 
 description: # REQUIRED - <key:value> - supports markdown
 
