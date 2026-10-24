@@ -1,0 +1,107 @@
+id: AS330
+type: Attack Story
+date: 2026-10
+platforms:
+  - cicd-saas
+
+summary: Railway build-infrastructure access decrypted a subset of customer environment variables
+
+description: |
+  Railway disclosed unauthorized access to internal systems that store
+  customer environment variables. The preliminary report, published 22
+  October 2026 by Jacob Cooper and Angelo Saraceno, says monitoring paged
+  on-call at 13:58 UTC on 20 October for elevated latency. Engineering
+  then identified a hostile privilege escalation in the build
+  infrastructure and halted build pipelines. Railway believes the
+  attacker had access from 20 October 13:58 UTC until 22 October 03:32
+  UTC, when it confirmed the attacker no longer had access to internal
+  systems. The specific exploit is unpublished. Railway says initial
+  evidence points to a campaign aimed at AI-provider API keys for
+  distillation, and that the actor appeared to have abliterated models
+  and substantial compute. That attribution of intent is the vendor's,
+  and the exploit details are withheld while forensics continue.
+
+  On 21 October, between 04:24 and 05:23 UTC, the attacker pulled
+  secrets in encrypted form and could not yet decrypt them. Between
+  05:27 and 07:25 UTC the attacker used credentials for the CI
+  environment and decrypted artifacts that held further API access.
+  Between 07:25 and 09:18 UTC an unauthorized query read encrypted
+  environment variables, and a subset were decrypted with those
+  credentials. Envelope encryption means that query does not identify
+  which variables inside an affected project were decrypted. Logs from
+  the attacker's payloads showed the API key names being searched.
+  At 09:25 UTC Railway notified partner vendors, including GitHub,
+  GitLab, Anthropic, OpenAI, OpenRouter, SpaceXSI, and Stripe, and
+  asked them to revoke keys. For some of those vendors it sent every
+  key stored on the platform, not only keys known to be impacted. A
+  vendor revocation notice does not mean that workspace was in the
+  confirmed-impact set.
+
+  Railway says at most 1.85 percent of workspaces, about 100,000, had
+  some environment variables potentially compromised. It notified
+  higher-risk workspaces by 18:57 UTC on 23 October and says workspaces
+  outside that set are not confirmed safe. It did not access Railway
+  user accounts. Whether source code was read is unconfirmed. Running
+  deployments stayed up; new builds were paused during triage and later
+  restored. Railway recommends that customers who signed up before 21
+  October rotate secrets stored in Railway environment variables,
+  including registry credentials.
+
+attacks:
+  - attack: Railway build infrastructure
+    index: 1
+    stage: supply-chain
+    customer: 0
+    supplier: 2
+    techniques:
+      - techniqueID: T0135
+        techName: Vulnerable CICD system
+        tactic: Initial Access
+        comment: |
+          Railway identified a privilege escalation in its build
+          infrastructure, halted pipelines, and later said the exploit
+          could no longer be reproduced. The specific vulnerability is
+          unpublished.
+      - techniqueID: T0184
+        techName: Harvesting sensitive information from files
+        tactic: Credential Access
+        comment: |
+          After reaching the CI environment, the attacker decrypted
+          artifacts that held additional API access. Those credentials
+          were then used against customer environment variables.
+  - attack: Customer environment variables on Railway
+    index: 2
+    stage: post-supply-chain
+    customer: 1
+    supplier: 1
+    techniques:
+      - techniqueID: T0140
+        techName: Harvest tokens from environment variables
+        tactic: Credential Access
+        comment: |
+          An unauthorized query read encrypted environment variables.
+          A subset were decrypted. Railway cannot say which variables
+          inside an affected project were decrypted, because the values
+          were envelope-encrypted.
+      - techniqueID: T0199
+        techName: Secret leak
+        tactic: Impact
+        comment: |
+          Decrypted variables can hold API keys, database credentials,
+          and registry credentials. Railway's upper bound is 1.85
+          percent of workspaces, about 100,000. Partner revocation
+          mail is wider than that set and is not proof of impact.
+
+gaps:
+  - The exploit used against the build infrastructure is unpublished.
+    Not mapped as a named CVE or as stolen employee credentials.
+  - Which individual variables were decrypted is unknown. Source-code
+    access is unconfirmed. Railway user accounts were not accessed.
+  - Railway says this sits in a series of attacks on platform companies
+    aimed at AI inference providers. It does not name the other
+    victims. Not merged with any other October disclosure.
+
+links:
+  - https://blog.railway.com/p/security-disclosure-wednesday-october-21st
+  - https://blog.railway.com/p/preliminary-report-october-security-incident
+  - https://status.railway.com/incident/QH8L8B3E

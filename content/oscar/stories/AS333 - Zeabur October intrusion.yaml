@@ -1,0 +1,58 @@
+id: AS333
+type: Attack Story
+date: 2026-10
+platforms:
+  - cicd-saas
+
+summary: An attacker accessed Zeabur internal systems and some customer services on 14 October
+
+description: |
+  Zeabur's founder, Yuanlin Lin, wrote on 17 October 2026 that an
+  external attacker gained unauthorized access on 14 October (UTC) to
+  Zeabur's internal systems and to some customer services. The post
+  says this incident affected a broader scope than an incident in late
+  August. Zeabur said it had contained known attack paths and was still
+  investigating. It did not name the actor, the entry vector, or what
+  was read or changed on customer services. It is accepting compensation
+  claims from customers who suffered losses because of the incident.
+
+  The same post announces that Zeabur is winding down. Dedicated
+  servers and shared clusters stop by 31 December 2026. That shutdown
+  is a business decision the founder ties to two security incidents
+  plus architecture and market limits. It is not itself the attack.
+  The August incident is a separate, earlier event. This story covers
+  only the 14 October access the October post describes.
+
+attacks:
+  - attack: Zeabur internal systems and customer services
+    index: 1
+    stage: supply-chain
+    customer: 1
+    supplier: 2
+    techniques:
+      - techniqueID: T0180
+        techName: Compromise services / servers
+        tactic: Initial Access
+        comment: |
+          The vendor says an external attacker had unauthorized access
+          to internal systems and to some customer services on 14
+          October. The entry vector is unpublished.
+      - techniqueID: T0201
+        techName: Customers compromised
+        tactic: Impact
+        comment: |
+          Zeabur confirmed some customer services were accessed and is
+          taking compensation claims for losses from the incident. It
+          has not published which services, or what was read or changed.
+
+gaps:
+  - Entry vector, actor, and the data taken from customer services are
+    unpublished. Not mapped as a stolen token, a named vulnerability,
+    or a poisoned deployment artifact.
+  - The late August incident is a prior event. This post does not give
+    it a primary URL, so it is not a second story.
+  - Not merged with other October platform disclosures. Zeabur does
+    not describe AI-provider key theft or a distillation objective.
+
+links:
+  - https://zeabur.com/blogs/zeabur-is-shutting-down

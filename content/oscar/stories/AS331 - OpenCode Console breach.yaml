@@ -1,0 +1,56 @@
+id: AS331
+type: Attack Story
+date: 2026-10
+platforms:
+  - ai-agents
+
+summary: OpenCode Console breach hit users who had linked external AI providers
+
+description: |
+  OpenCode, the open-source coding agent, disclosed a security breach
+  of OpenCode Console on 17 October 2026. The vendor's post, at 18:08
+  UTC, says the breach the night before was a large-scale distillation
+  attack and that it affected 1.4 percent of Console users: the subset
+  who had external AI providers linked. OpenCode named Anthropic,
+  OpenAI, and Google as the providers it was working with to remediate.
+  It said every impacted user was emailed that morning, and that a user
+  who did not get the email was not impacted. The incident was still
+  ongoing, and the post gave no root cause and did not say what data
+  was accessed.
+
+  StepSecurity's 18 October write-up quotes that statement and treats
+  the linked provider credentials as the thing at risk. That inference
+  is the lab's, not a vendor confirmation that tokens were copied.
+  The vendor scoped the breach to Console accounts with linked
+  providers, not to every install of the OpenCode CLI, and published
+  no affected version list. How the Console was entered is unpublished.
+
+attacks:
+  - attack: OpenCode Console
+    index: 1
+    stage: supply-chain
+    customer: 1
+    supplier: 2
+    techniques:
+      - techniqueID: T0180
+        techName: Compromise services / servers
+        tactic: Initial Access
+        comment: |
+          OpenCode said its Console was breached and that the affected
+          accounts were those with external providers linked. The entry
+          vector is unpublished. Not mapped as a malicious package or
+          as a compromised developer workstation.
+
+gaps:
+  - Whether linked Anthropic, OpenAI, or Google credentials were
+    copied is unpublished. The vendor said it was working with those
+    providers to remediate, and that the incident was ongoing.
+  - No root cause, no affected CLI versions, and no statement of what
+    data was accessed. A local auth.json path in a response guide is
+    not evidence the workstation was the breach.
+  - Same week as other disclosures aimed at AI-provider credentials.
+    OpenCode does not name those other companies. Not merged.
+
+links:
+  - https://x.com/opencode/status/2111519637049319818
+  - https://www.stepsecurity.io/blog/opencode-security-breach

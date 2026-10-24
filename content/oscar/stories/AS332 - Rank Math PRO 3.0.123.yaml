@@ -1,0 +1,86 @@
+id: AS332
+type: Attack Story
+date: 2026-10
+platforms:
+  - update-channel
+
+summary: Rank Math PRO 3.0.123 downloads carried malware that plants a recreating backdoor
+
+description: |
+  Rank Math said plugin files for Rank Math PRO v3.0.123, downloaded
+  between 20:02 UTC on 15 October 2026 and 07:12 UTC on 16 October,
+  contained malware that could compromise a site if the plugin was
+  activated. The vendor removed those files and released a clean
+  3.0.124. The free Rank Math SEO plugin on WordPress.org is not
+  affected. How the malware entered the 3.0.123 files is not in the
+  notice.
+
+  If 3.0.123 was activated, Rank Math says to treat the site as
+  compromised. The malware can recreate a hidden backdoor when someone
+  visits the site, so deleting files before removing the rebuild
+  mechanism does not clear it. The notice tells operators to delete
+  the rank-math-pro folder, remove wp_options rows named _uf6qdn2hmm,
+  t8krdk990phb, or _np5pvf754c, and block outbound connections to
+  rank1cdn.com. It also describes leftover PHP that combines
+  base64_decode with XOR loops keyed xmmqhn, proc_open, or PHP-FPM
+  socket code; administrator accounts named wpsupport_ plus random
+  characters, or using addresses at wp-mail.net; and a fake core file,
+  wp-includes/class-wp-cache-util.php, which is not a WordPress file.
+  Downloading 3.0.123 without installing or activating it is not, by
+  itself, evidence the site was compromised.
+
+attacks:
+  - attack: Rank Math PRO 3.0.123 download
+    index: 1
+    stage: supply-chain
+    customer: 0
+    supplier: 2
+    techniques:
+      - techniqueID: T0121
+        techName: Compromised legitimate artifact
+        tactic: Resource Development
+        comment: |
+          The vendor's own PRO 3.0.123 files, served from the Rank Math
+          account download during an eleven-hour window, contained
+          malware. The free WordPress.org build was not the affected
+          artifact. How the files were replaced is unpublished.
+  - attack: Sites that activated 3.0.123
+    index: 2
+    stage: post-supply-chain
+    customer: 1
+    supplier: 0
+    techniques:
+      - techniqueID: T0159
+        techName: Malicious artifact execution
+        tactic: Execution
+        comment: |
+          Rank Math says the malware can compromise the site if the
+          plugin is activated. A download that was never activated is
+          not, by the vendor's notice, a compromise.
+      - techniqueID: T0138
+        techName: Backdoor in code
+        tactic: Persistence
+        comment: |
+          The payload can recreate a hidden backdoor on page view.
+          Indicators in the notice include option rows _uf6qdn2hmm,
+          t8krdk990phb, and _np5pvf754c, outbound contact to
+          rank1cdn.com, wpsupport_ administrators, and the fake core
+          file wp-includes/class-wp-cache-util.php.
+      - techniqueID: T0201
+        techName: Customers compromised
+        tactic: Impact
+        comment: |
+          Rank Math tells operators who activated 3.0.123 in the
+          window to treat the website as compromised, restore from a
+          backup taken before 20:02 UTC on 15 October, and rotate
+          secrets on the site.
+
+gaps:
+  - How the malicious files entered the PRO download is unpublished.
+    Not mapped as a stolen maintainer token, a compromised update
+    server, or a WordPress.org registry tamper.
+  - No count of sites that activated the build. The notice says a
+    limited number of users downloaded it.
+
+links:
+  - https://rankmath.com/kb/pro-3-0-123-security-incident/

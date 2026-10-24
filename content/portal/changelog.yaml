@@ -1,4 +1,30 @@
 entries:
+- date: '2026-10-25'
+  id: intake-2026-10-25
+  title: Railway build secrets; OpenCode Console; Rank Math PRO; Zeabur
+  items:
+  - 'AS330: Railway identified a privilege escalation in its build
+    infrastructure on 20 October and halted pipelines. A preliminary
+    report says the attacker later decrypted CI artifacts and a subset
+    of customer environment variables, searching for AI-provider API
+    keys. Upper bound given is 1.85 percent of workspaces, about
+    100,000. The exploit itself is unpublished. Not merged with other
+    October disclosures the vendor did not name.'
+  - 'AS331: OpenCode said on 17 October that a distillation attack
+    breached Console accounts for 1.4 percent of users, the subset with
+    external AI providers linked (Anthropic, OpenAI, Google). Root
+    cause and whether those credentials were copied are unpublished.
+    Scoped to Console, not to every CLI install.'
+  - 'AS332: Rank Math PRO 3.0.123 files downloaded from 20:02 UTC on 15
+    October to 07:12 UTC on 16 October contained malware. Activation
+    can plant a backdoor that recreates itself and calls rank1cdn.com.
+    The free WordPress.org plugin was not the affected build. How the
+    files were poisoned is unpublished.'
+  - 'AS333: Zeabur said an external attacker accessed internal systems
+    and some customer services on 14 October, a wider event than one in
+    late August. Entry vector and what was taken are unpublished. The
+    same post announces the platform is winding down; that decision is
+    not the attack.'
 - date: '2026-10-24'
   id: poisonedpipeline-domain
   title: Site rebranded to Poisoned Pipeline on poisonedpipeline.com
