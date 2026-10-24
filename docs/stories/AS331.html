@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OpenCode Console breach hit users who had linked external AI providers · Poisoned Pipeline</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script defer data-domain="poisonedpipeline.com" src="https://plausible.io/js/script.js"></script>
+
+</head>
+<body>
+
+    <header class="top">
+      <div class="bar">
+        <a class="brand" href="../index.html">Poisoned Pipeline</a>
+        <nav>
+          <a href="../index.html">Home</a>
+          <a href="../matrix.html">Technique matrix</a>
+          <a href="../cicd.html">CI/CD matrix</a>
+          <a href="../techniques/index.html">Techniques</a>
+          <a href="../mitigations/index.html">Mitigations</a>
+          <a href="../incidents/index.html">Incident mapping</a>
+          <a href="../platforms/index.html">Platforms</a>
+          <a href="../stories/index.html">Attack stories</a>
+          <a href="../guidance.html">Guidance</a>
+          <a href="../origins.html">Origins</a>
+          <a href="../talks.html">Talks</a>
+          <a href="../sources.html">Sources</a>
+          <a href="../changelog.html">Changelog</a>
+          <a href="../about.html">About</a>
+        </nav>
+      </div>
+    </header>
+<main>
+<p class="crumb">Poisoned Pipeline / <a href="index.html">Incidents</a> / AS331</p>
+
+        <p class="meta">AS331 · 2026-10</p>
+        <h1>OpenCode Console breach hit users who had linked external AI providers</h1>
+        <p><a class="plat" href="../platforms/ai-agents.html">AI coding agents</a></p>
+        <p>OpenCode, the open-source coding agent, disclosed a security breach<br>of OpenCode Console on 17 October 2026. The vendor&#x27;s post, at 18:08<br>UTC, says the breach the night before was a large-scale distillation<br>attack and that it affected 1.4 percent of Console users: the subset<br>who had external AI providers linked. OpenCode named Anthropic,<br>OpenAI, and Google as the providers it was working with to remediate.<br>It said every impacted user was emailed that morning, and that a user<br>who did not get the email was not impacted. The incident was still<br>ongoing, and the post gave no root cause and did not say what data<br>was accessed.</p><p>StepSecurity&#x27;s 18 October write-up quotes that statement and treats<br>the linked provider credentials as the thing at risk. That inference<br>is the lab&#x27;s, not a vendor confirmation that tokens were copied.<br>The vendor scoped the breach to Console accounts with linked<br>providers, not to every install of the OpenCode CLI, and published<br>no affected version list. How the Console was entered is unpublished.</p>
+        <h2>Mapped techniques</h2>
+        <ul><li><a href="../techniques/T0180.html">T0180</a> Compromise services / servers</li></ul>
+        <h2><span class="stage">supply-chain</span> OpenCode Console</h2><div class="card"><p class="meta"><a href="../techniques/T0180.html">T0180</a> · Initial Access · Compromise services / servers</p><p>OpenCode said its Console was breached and that the affected<br>accounts were those with external providers linked. The entry<br>vector is unpublished. Not mapped as a malicious package or<br>as a compromised developer workstation.</p></div>
+        <div class="card gaps"><h3>Framework gaps noted</h3><ul><li>Whether linked Anthropic, OpenAI, or Google credentials were copied is unpublished. The vendor said it was working with those providers to remediate, and that the incident was ongoing.</li><li>No root cause, no affected CLI versions, and no statement of what data was accessed. A local auth.json path in a response guide is not evidence the workstation was the breach.</li><li>Same week as other disclosures aimed at AI-provider credentials. OpenCode does not name those other companies. Not merged.</li></ul></div>
+        <h2>Sources</h2>
+        <ul class='refs'><li><a href="https://x.com/opencode/status/2111519637049319818" rel="noopener">https://x.com/opencode/status/2111519637049319818</a></li><li><a href="https://www.stepsecurity.io/blog/opencode-security-breach" rel="noopener">https://www.stepsecurity.io/blog/opencode-security-breach</a></li></ul>
+        
+</main>
+
+    <footer>
+      <p>Powered by <a href="https://cyfinoid.com">Cyfinoid Research</a></p>
+    </footer>
+</body>
+</html>

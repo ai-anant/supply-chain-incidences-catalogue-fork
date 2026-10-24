@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>An attacker accessed Zeabur internal systems and some customer services on 14 October · Poisoned Pipeline</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script defer data-domain="poisonedpipeline.com" src="https://plausible.io/js/script.js"></script>
+
+</head>
+<body>
+
+    <header class="top">
+      <div class="bar">
+        <a class="brand" href="../index.html">Poisoned Pipeline</a>
+        <nav>
+          <a href="../index.html">Home</a>
+          <a href="../matrix.html">Technique matrix</a>
+          <a href="../cicd.html">CI/CD matrix</a>
+          <a href="../techniques/index.html">Techniques</a>
+          <a href="../mitigations/index.html">Mitigations</a>
+          <a href="../incidents/index.html">Incident mapping</a>
+          <a href="../platforms/index.html">Platforms</a>
+          <a href="../stories/index.html">Attack stories</a>
+          <a href="../guidance.html">Guidance</a>
+          <a href="../origins.html">Origins</a>
+          <a href="../talks.html">Talks</a>
+          <a href="../sources.html">Sources</a>
+          <a href="../changelog.html">Changelog</a>
+          <a href="../about.html">About</a>
+        </nav>
+      </div>
+    </header>
+<main>
+<p class="crumb">Poisoned Pipeline / <a href="index.html">Incidents</a> / AS333</p>
+
+        <p class="meta">AS333 · 2026-10</p>
+        <h1>An attacker accessed Zeabur internal systems and some customer services on 14 October</h1>
+        <p><a class="plat" href="../platforms/cicd-saas.html">CI/CD SaaS</a></p>
+        <p>Zeabur&#x27;s founder, Yuanlin Lin, wrote on 17 October 2026 that an<br>external attacker gained unauthorized access on 14 October (UTC) to<br>Zeabur&#x27;s internal systems and to some customer services. The post<br>says this incident affected a broader scope than an incident in late<br>August. Zeabur said it had contained known attack paths and was still<br>investigating. It did not name the actor, the entry vector, or what<br>was read or changed on customer services. It is accepting compensation<br>claims from customers who suffered losses because of the incident.</p><p>The same post announces that Zeabur is winding down. Dedicated<br>servers and shared clusters stop by 31 December 2026. That shutdown<br>is a business decision the founder ties to two security incidents<br>plus architecture and market limits. It is not itself the attack.<br>The August incident is a separate, earlier event. This story covers<br>only the 14 October access the October post describes.</p>
+        <h2>Mapped techniques</h2>
+        <ul><li><a href="../techniques/T0180.html">T0180</a> Compromise services / servers</li><li><a href="../techniques/T0201.html">T0201</a> Customers compromised</li></ul>
+        <h2><span class="stage">supply-chain</span> Zeabur internal systems and customer services</h2><div class="card"><p class="meta"><a href="../techniques/T0180.html">T0180</a> · Initial Access · Compromise services / servers</p><p>The vendor says an external attacker had unauthorized access<br>to internal systems and to some customer services on 14<br>October. The entry vector is unpublished.</p></div><div class="card"><p class="meta"><a href="../techniques/T0201.html">T0201</a> · Impact · Customers compromised</p><p>Zeabur confirmed some customer services were accessed and is<br>taking compensation claims for losses from the incident. It<br>has not published which services, or what was read or changed.</p></div>
+        <div class="card gaps"><h3>Framework gaps noted</h3><ul><li>Entry vector, actor, and the data taken from customer services are unpublished. Not mapped as a stolen token, a named vulnerability, or a poisoned deployment artifact.</li><li>The late August incident is a prior event. This post does not give it a primary URL, so it is not a second story.</li><li>Not merged with other October platform disclosures. Zeabur does not describe AI-provider key theft or a distillation objective.</li></ul></div>
+        <h2>Sources</h2>
+        <ul class='refs'><li><a href="https://zeabur.com/blogs/zeabur-is-shutting-down" rel="noopener">https://zeabur.com/blogs/zeabur-is-shutting-down</a></li></ul>
+        
+</main>
+
+    <footer>
+      <p>Powered by <a href="https://cyfinoid.com">Cyfinoid Research</a></p>
+    </footer>
+</body>
+</html>

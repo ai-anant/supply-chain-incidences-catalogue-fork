@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rank Math PRO 3.0.123 downloads carried malware that plants a recreating backdoor · Poisoned Pipeline</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script defer data-domain="poisonedpipeline.com" src="https://plausible.io/js/script.js"></script>
+
+</head>
+<body>
+
+    <header class="top">
+      <div class="bar">
+        <a class="brand" href="../index.html">Poisoned Pipeline</a>
+        <nav>
+          <a href="../index.html">Home</a>
+          <a href="../matrix.html">Technique matrix</a>
+          <a href="../cicd.html">CI/CD matrix</a>
+          <a href="../techniques/index.html">Techniques</a>
+          <a href="../mitigations/index.html">Mitigations</a>
+          <a href="../incidents/index.html">Incident mapping</a>
+          <a href="../platforms/index.html">Platforms</a>
+          <a href="../stories/index.html">Attack stories</a>
+          <a href="../guidance.html">Guidance</a>
+          <a href="../origins.html">Origins</a>
+          <a href="../talks.html">Talks</a>
+          <a href="../sources.html">Sources</a>
+          <a href="../changelog.html">Changelog</a>
+          <a href="../about.html">About</a>
+        </nav>
+      </div>
+    </header>
+<main>
+<p class="crumb">Poisoned Pipeline / <a href="index.html">Incidents</a> / AS332</p>
+
+        <p class="meta">AS332 · 2026-10</p>
+        <h1>Rank Math PRO 3.0.123 downloads carried malware that plants a recreating backdoor</h1>
+        <p><a class="plat" href="../platforms/update-channel.html">Installer / update channel</a></p>
+        <p>Rank Math said plugin files for Rank Math PRO v3.0.123, downloaded<br>between 20:02 UTC on 15 October 2026 and 07:12 UTC on 16 October,<br>contained malware that could compromise a site if the plugin was<br>activated. The vendor removed those files and released a clean<br>3.0.124. The free Rank Math SEO plugin on WordPress.org is not<br>affected. How the malware entered the 3.0.123 files is not in the<br>notice.</p><p>If 3.0.123 was activated, Rank Math says to treat the site as<br>compromised. The malware can recreate a hidden backdoor when someone<br>visits the site, so deleting files before removing the rebuild<br>mechanism does not clear it. The notice tells operators to delete<br>the rank-math-pro folder, remove wp_options rows named _uf6qdn2hmm,<br>t8krdk990phb, or _np5pvf754c, and block outbound connections to<br>rank1cdn.com. It also describes leftover PHP that combines<br>base64_decode with XOR loops keyed xmmqhn, proc_open, or PHP-FPM<br>socket code; administrator accounts named wpsupport_ plus random<br>characters, or using addresses at wp-mail.net; and a fake core file,<br>wp-includes/class-wp-cache-util.php, which is not a WordPress file.<br>Downloading 3.0.123 without installing or activating it is not, by<br>itself, evidence the site was compromised.</p>
+        <h2>Mapped techniques</h2>
+        <ul><li><a href="../techniques/T0121.html">T0121</a> Compromised legitimate artifact</li><li><a href="../techniques/T0159.html">T0159</a> Malicious artifact execution</li><li><a href="../techniques/T0138.html">T0138</a> Backdoor in code</li><li><a href="../techniques/T0201.html">T0201</a> Customers compromised</li></ul>
+        <h2><span class="stage">supply-chain</span> Rank Math PRO 3.0.123 download</h2><div class="card"><p class="meta"><a href="../techniques/T0121.html">T0121</a> · Resource Development · Compromised legitimate artifact</p><p>The vendor&#x27;s own PRO 3.0.123 files, served from the Rank Math<br>account download during an eleven-hour window, contained<br>malware. The free WordPress.org build was not the affected<br>artifact. How the files were replaced is unpublished.</p></div><h2><span class="stage">post-supply-chain</span> Sites that activated 3.0.123</h2><div class="card"><p class="meta"><a href="../techniques/T0159.html">T0159</a> · Execution · Malicious artifact execution</p><p>Rank Math says the malware can compromise the site if the<br>plugin is activated. A download that was never activated is<br>not, by the vendor&#x27;s notice, a compromise.</p></div><div class="card"><p class="meta"><a href="../techniques/T0138.html">T0138</a> · Persistence · Backdoor in code</p><p>The payload can recreate a hidden backdoor on page view.<br>Indicators in the notice include option rows _uf6qdn2hmm,<br>t8krdk990phb, and _np5pvf754c, outbound contact to<br>rank1cdn.com, wpsupport_ administrators, and the fake core<br>file wp-includes/class-wp-cache-util.php.</p></div><div class="card"><p class="meta"><a href="../techniques/T0201.html">T0201</a> · Impact · Customers compromised</p><p>Rank Math tells operators who activated 3.0.123 in the<br>window to treat the website as compromised, restore from a<br>backup taken before 20:02 UTC on 15 October, and rotate<br>secrets on the site.</p></div>
+        <div class="card gaps"><h3>Framework gaps noted</h3><ul><li>How the malicious files entered the PRO download is unpublished. Not mapped as a stolen maintainer token, a compromised update server, or a WordPress.org registry tamper.</li><li>No count of sites that activated the build. The notice says a limited number of users downloaded it.</li></ul></div>
+        <h2>Sources</h2>
+        <ul class='refs'><li><a href="https://rankmath.com/kb/pro-3-0-123-security-incident/" rel="noopener">https://rankmath.com/kb/pro-3-0-123-security-incident/</a></li></ul>
+        
+</main>
+
+    <footer>
+      <p>Powered by <a href="https://cyfinoid.com">Cyfinoid Research</a></p>
+    </footer>
+</body>
+</html>

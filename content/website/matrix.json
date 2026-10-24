@@ -226,7 +226,7 @@
         ],
         "url": "techniques/T0121.html",
         "description": "A compromised legitimate artifact attack is a type of cyber attack in which an attacker replaces a legitimate package or container image with a malicious version, often without the knowledge of the original developer or distributor. \nThis attack takes advantage of the trust that users place in legitimate packages or container images, which are often used to deploy software across multiple environments.\nIn this attack, the attacker may gain access to the repository or registry where the legitimate artifact is stored, either by exploiting a vulnerability or through social engineering tactics. \nThe attacker then replaces the legitimate artifact with a malicious version that contains malware or other harmful code. \nOnce the compromised artifact is downloaded and deployed, it can compromise the system and potentially cause significant harm, such as stealing sensitive data or taking control of the system.\n",
-        "incidentCount": 69
+        "incidentCount": 70
       },
       {
         "id": "T0141",
@@ -442,7 +442,7 @@
         ],
         "url": "techniques/T0135.html",
         "description": "An attacker can target the CI/CD system itself and exploit vulnerabilities in the system, such as insecure configurations or outdated software. \nThe attacker may also target the build scripts, which could contain secrets and sensitive information, allowing them to gain access to the underlying systems or inject malicious code into the software being built.\nSome common vulnerabilities in CI/CD systems include insecure storage of credentials, unsecured APIs, and outdated software components. \nAdditionally, attackers may take advantage of misconfigured permissions, such as overly permissive access controls that allow them to escalate privileges or access sensitive information.\n",
-        "incidentCount": 3
+        "incidentCount": 4
       },
       {
         "id": "T0136",
@@ -552,7 +552,7 @@
         ],
         "url": "techniques/T0180.html",
         "description": "Services (servers) compromise attack in the supply chain is a type of attack that targets the servers hosting the software development and distribution infrastructure. \nThis attack can happen when an attacker gains access to the server through a vulnerability, misconfiguration, or social engineering attack. \nOnce the attacker gains access to the server, they can modify the source code or software packages being distributed to include malicious code or backdoors. \nThis attack can compromise multiple software projects and potentially all users who download or use the compromised software.\n",
-        "incidentCount": 8
+        "incidentCount": 10
       },
       {
         "id": "T0181",
@@ -729,7 +729,7 @@
         ],
         "url": "techniques/T0159.html",
         "description": "Malicious artifact execution refers to an attack where an attacker injects or modifies a software component with malicious code that is executed when the component is used by a downstream system in the CI/CD process. \nWhen a CI/CD process lacks sufficient mechanisms to validate the integrity of code and artifacts, attackers can insert malicious code that appears to be harmless. \nThis allows the malicious code to pass through the pipeline undetected, potentially causing harm in the CI/CD process or in production.\nThe malicious code can be executed in the CI/CD process or even in production.\n",
-        "incidentCount": 57
+        "incidentCount": 58
       },
       {
         "id": "T0166",
@@ -836,7 +836,7 @@
         ],
         "url": "techniques/T0138.html",
         "description": "Backdoor in code attack technique involves inserting a malicious code segment or backdoor into the software codebase, which allows the attacker to maintain access and control over the system even after their initial access has been removed or blocked.\nIn this attack, the attacker gains access to the codebase through various means, such as exploiting vulnerabilities or stealing credentials. \nOnce they have gained access, the attacker inserts a malicious code segment or backdoor into the codebase. \nThis code segment may be designed to execute specific malicious activities, such as stealing sensitive information, or to provide the attacker with continued access and control over the system.\n",
-        "incidentCount": 9
+        "incidentCount": 10
       },
       {
         "id": "T0148",
@@ -1162,7 +1162,7 @@
         ],
         "url": "techniques/T0140.html",
         "description": "This type of attack involves searching for environment variables that may contain sensitive information and dumping their values to gain access to the associated resources.\nIn cloud and container environments, environment variables are often used to store configuration data, including sensitive information such as passwords, tokens and API keys. \nAttackers can exploit this by searching through the environment variables of running containers or cloud instances to find any sensitive information that has been inadvertently exposed. \nOnce the sensitive information has been obtained, attackers can use it to access and compromise the associated resources.\n",
-        "incidentCount": 34
+        "incidentCount": 35
       },
       {
         "id": "T0162",
@@ -1211,7 +1211,7 @@
         ],
         "url": "techniques/T0184.html",
         "description": "This attack involves searching for files within the CI/CD system that may contain sensitive information such as credentials, API keys, or other access tokens.\nThese files can include configuration files, scripts, and other files that are used as part of the build and deployment process. \nAttackers can use various techniques to locate these files, including directory traversal attacks, file inclusion vulnerabilities, or simply guessing common file names or paths.\nOnce the attacker has located a file containing sensitive information, they can extract the credentials and use them to gain unauthorized access to the targeted system or application.\n",
-        "incidentCount": 108
+        "incidentCount": 109
       },
       {
         "id": "T0185",
@@ -1472,7 +1472,7 @@
         ],
         "url": "techniques/T0199.html",
         "description": "- In the realm of software supply chains, attackers covet secrets. Gaining access to customer secrets enables attackers to advance to the next stage of their malicious activities.\n",
-        "incidentCount": 7
+        "incidentCount": 8
       },
       {
         "id": "T0200",
@@ -1499,7 +1499,7 @@
         ],
         "url": "techniques/T0201.html",
         "description": "The downstream consequence of a software supply-chain attack: customers who\nconsumed a poisoned update, package, or service are themselves breached.\nSolarWinds Orion, 3CX, Codecov, and Polyfill.io are canonical examples \u2014\nthe supplier is the delivery vehicle; customer environments are the prize.\nModeling this as its own Impact technique lets defenders map \"what happened\nto us because we trusted a vendor\" without collapsing it into a generic\nbackdoor label.\n",
-        "incidentCount": 17
+        "incidentCount": 19
       },
       {
         "id": "T0216",

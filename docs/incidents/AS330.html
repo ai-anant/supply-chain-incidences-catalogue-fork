@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Railway build-infrastructure access decrypted a subset of customer environment variables · Poisoned Pipeline</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script defer data-domain="poisonedpipeline.com" src="https://plausible.io/js/script.js"></script>
+
+</head>
+<body>
+
+    <header class="top">
+      <div class="bar">
+        <a class="brand" href="../index.html">Poisoned Pipeline</a>
+        <nav>
+          <a href="../index.html">Home</a>
+          <a href="../matrix.html">Technique matrix</a>
+          <a href="../cicd.html">CI/CD matrix</a>
+          <a href="../techniques/index.html">Techniques</a>
+          <a href="../mitigations/index.html">Mitigations</a>
+          <a href="../incidents/index.html">Incident mapping</a>
+          <a href="../platforms/index.html">Platforms</a>
+          <a href="../stories/index.html">Attack stories</a>
+          <a href="../guidance.html">Guidance</a>
+          <a href="../origins.html">Origins</a>
+          <a href="../talks.html">Talks</a>
+          <a href="../sources.html">Sources</a>
+          <a href="../changelog.html">Changelog</a>
+          <a href="../about.html">About</a>
+        </nav>
+      </div>
+    </header>
+<main>
+<p class="crumb">Poisoned Pipeline / <a href="index.html">Incidents</a> / AS330</p>
+
+        <p class="meta">AS330 · 2026-10</p>
+        <h1>Railway build-infrastructure access decrypted a subset of customer environment variables</h1>
+        <p><a class="plat" href="../platforms/cicd-saas.html">CI/CD SaaS</a></p>
+        <p>Railway disclosed unauthorized access to internal systems that store<br>customer environment variables. The preliminary report, published 22<br>October 2026 by Jacob Cooper and Angelo Saraceno, says monitoring paged<br>on-call at 13:58 UTC on 20 October for elevated latency. Engineering<br>then identified a hostile privilege escalation in the build<br>infrastructure and halted build pipelines. Railway believes the<br>attacker had access from 20 October 13:58 UTC until 22 October 03:32<br>UTC, when it confirmed the attacker no longer had access to internal<br>systems. The specific exploit is unpublished. Railway says initial<br>evidence points to a campaign aimed at AI-provider API keys for<br>distillation, and that the actor appeared to have abliterated models<br>and substantial compute. That attribution of intent is the vendor&#x27;s,<br>and the exploit details are withheld while forensics continue.</p><p>On 21 October, between 04:24 and 05:23 UTC, the attacker pulled<br>secrets in encrypted form and could not yet decrypt them. Between<br>05:27 and 07:25 UTC the attacker used credentials for the CI<br>environment and decrypted artifacts that held further API access.<br>Between 07:25 and 09:18 UTC an unauthorized query read encrypted<br>environment variables, and a subset were decrypted with those<br>credentials. Envelope encryption means that query does not identify<br>which variables inside an affected project were decrypted. Logs from<br>the attacker&#x27;s payloads showed the API key names being searched.<br>At 09:25 UTC Railway notified partner vendors, including GitHub,<br>GitLab, Anthropic, OpenAI, OpenRouter, SpaceXSI, and Stripe, and<br>asked them to revoke keys. For some of those vendors it sent every<br>key stored on the platform, not only keys known to be impacted. A<br>vendor revocation notice does not mean that workspace was in the<br>confirmed-impact set.</p><p>Railway says at most 1.85 percent of workspaces, about 100,000, had<br>some environment variables potentially compromised. It notified<br>higher-risk workspaces by 18:57 UTC on 23 October and says workspaces<br>outside that set are not confirmed safe. It did not access Railway<br>user accounts. Whether source code was read is unconfirmed. Running<br>deployments stayed up; new builds were paused during triage and later<br>restored. Railway recommends that customers who signed up before 21<br>October rotate secrets stored in Railway environment variables,<br>including registry credentials.</p>
+        <h2>Mapped techniques</h2>
+        <ul><li><a href="../techniques/T0135.html">T0135</a> Vulnerable CICD system</li><li><a href="../techniques/T0184.html">T0184</a> Harvesting sensitive information from files</li><li><a href="../techniques/T0140.html">T0140</a> Harvest tokens from environment variables</li><li><a href="../techniques/T0199.html">T0199</a> Secret leak</li></ul>
+        <h2><span class="stage">supply-chain</span> Railway build infrastructure</h2><div class="card"><p class="meta"><a href="../techniques/T0135.html">T0135</a> · Initial Access · Vulnerable CICD system</p><p>Railway identified a privilege escalation in its build<br>infrastructure, halted pipelines, and later said the exploit<br>could no longer be reproduced. The specific vulnerability is<br>unpublished.</p></div><div class="card"><p class="meta"><a href="../techniques/T0184.html">T0184</a> · Credential Access · Harvesting sensitive information from files</p><p>After reaching the CI environment, the attacker decrypted<br>artifacts that held additional API access. Those credentials<br>were then used against customer environment variables.</p></div><h2><span class="stage">post-supply-chain</span> Customer environment variables on Railway</h2><div class="card"><p class="meta"><a href="../techniques/T0140.html">T0140</a> · Credential Access · Harvest tokens from environment variables</p><p>An unauthorized query read encrypted environment variables.<br>A subset were decrypted. Railway cannot say which variables<br>inside an affected project were decrypted, because the values<br>were envelope-encrypted.</p></div><div class="card"><p class="meta"><a href="../techniques/T0199.html">T0199</a> · Impact · Secret leak</p><p>Decrypted variables can hold API keys, database credentials,<br>and registry credentials. Railway&#x27;s upper bound is 1.85<br>percent of workspaces, about 100,000. Partner revocation<br>mail is wider than that set and is not proof of impact.</p></div>
+        <div class="card gaps"><h3>Framework gaps noted</h3><ul><li>The exploit used against the build infrastructure is unpublished. Not mapped as a named CVE or as stolen employee credentials.</li><li>Which individual variables were decrypted is unknown. Source-code access is unconfirmed. Railway user accounts were not accessed.</li><li>Railway says this sits in a series of attacks on platform companies aimed at AI inference providers. It does not name the other victims. Not merged with any other October disclosure.</li></ul></div>
+        <h2>Sources</h2>
+        <ul class='refs'><li><a href="https://blog.railway.com/p/security-disclosure-wednesday-october-21st" rel="noopener">https://blog.railway.com/p/security-disclosure-wednesday-october-21st</a></li><li><a href="https://blog.railway.com/p/preliminary-report-october-security-incident" rel="noopener">https://blog.railway.com/p/preliminary-report-october-security-incident</a></li><li><a href="https://status.railway.com/incident/QH8L8B3E" rel="noopener">https://status.railway.com/incident/QH8L8B3E</a></li></ul>
+        
+</main>
+
+    <footer>
+      <p>Powered by <a href="https://cyfinoid.com">Cyfinoid Research</a></p>
+    </footer>
+</body>
+</html>
