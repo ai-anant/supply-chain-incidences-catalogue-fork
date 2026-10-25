@@ -22,7 +22,12 @@ description: |
   an NSS update removing the eMudhra root; Chrome confirmed the root goes in
   Chrome Root Store v43. No rogue certificate issued from the weak keys has
   been publicly reported — the compromise is the recoverable key material
-  itself, not an observed abuse.
+  itself, not an observed abuse. eMudhra's own account (Checkmarx Zero,
+  21 October) is that a wrap/unwrap step in the April 2025 key-generation
+  ceremony produced a second, weak set of keys alongside the intended
+  strong ones, and that only the weak set was published to the root
+  stores; it says one of the eight was deployed in production and none
+  issued an end-entity certificate.
 
 attacks:
   - attack: eMudhra CA keys
@@ -54,3 +59,8 @@ gaps: []
 links:
   - https://blog.cloudflare.com/emudhra-certificate-compromise/
   - https://scotthelme.co.uk/eight-bits-of-trust-emudhras-ca-keys-cracked-in-milliseconds/
+  - https://emudhra.we-have-a-problem.com/
+  - https://checkmarx.com/zero-post/eight-compromised-certificate-authority-keys-have-put-the-internet-at-risk/
+  - https://safedep.io/emudhra-ca-key-compromise
+  - https://www.aikido.dev/blog/emudhra-ca-compromise
+  - https://sansec.io/guides/emudhra-ca-compromise

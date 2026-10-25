@@ -64,8 +64,26 @@ description: |
   the lookalike source, satisfied the production approval gate with a
   second developer's credential, and used a third to delete the
   workflow run records. The compromised interval was 11:39 to 13:23
-  UTC on PyPI and 11:46 to 14:20 UTC on Docker Hub; LiteLLM has not
-  confirmed how the internal deployment was reached.
+  UTC on PyPI and 11:46 to 14:20 UTC on Docker Hub; LiteLLM's first
+  report did not say how the internal deployment was reached.
+
+  Socket (23 October 2026) recovered two earlier malicious workflow
+  commits in BerriAI/litellm that no release depended on: b69bc36 on
+  10 October at 22:11:45 UTC and 1a6e3c1 on 12 October, each adding
+  .github/workflows/cache.yml under the subject "ci: bump cache
+  config" on a short-lived ci-tmp-<hex> branch that was deleted the
+  same day. The repository's own Actions performance metrics record
+  one successful run for each, and cache.yml is absent from main at
+  the 21 October commit. Malicious workflow execution therefore sits
+  in the organization eleven days before the poisoned release, not
+  hours. LiteLLM's follow-up investigation corroborates the 10
+  October activity, traces initial access to an Agent Platform master
+  key committed to a public repository in May and never revoked, and
+  says the GH_TOKEN that the 10 October workflow stole was the one
+  used to approve the 21 October release. The stolen developer OAuth
+  tokens and the later pipeline abuse are the same operation; the
+  master key is how the attacker got the first organization-owner
+  token.
 
 attacks:
   - attack: Stolen operator tokens subvert the private release pipeline
@@ -87,10 +105,14 @@ attacks:
         techName: Compromised token
         tactic: Initial Access
         comment: |
-          Three developer GitHub CLI OAuth tokens gave workflow-run
-          rights, org-owner branch-protection override, an approval
-          gate pass, and run-record deletion. All involved tokens were
-          revoked after the incident.
+          An Agent Platform master key committed to a public repository
+          in May 2026 and never revoked retrieved an organization
+          owner's token, and the cache.yml workflows it authorized on
+          10 and 12 October stole a further maintainer GH_TOKEN. The
+          developer GitHub CLI OAuth tokens gave workflow-run rights,
+          org-owner branch-protection override, an approval gate pass,
+          and run-record deletion. All involved tokens were revoked
+          after the incident.
       - techniqueID: T0176
         techName: Disable or misconfigure security measures
         tactic: Defense Evasion
@@ -201,4 +223,7 @@ links:
   - https://safedep.io/litellm-pypi-compromise-credential-stealer-backdoor/
   - https://www.stepsecurity.io/blog/litellm-1-107-0-compromised-on-pypi-backdoored-wheels-drop-a-credential-stealer-and-an-hourly-remote-code-loader
   - https://socket.dev/blog/litellm-compromise
+  - https://socket.dev/blog/litellm-attack-timeline
+  - https://www.wiz.io/blog/litellm-compromised-steals-credentials
+  - https://www.aikido.dev/blog/litellm-compromised-infostealer-rat
   - https://opensourcemalware.com/blog/litellm-1-107-0-pypi-wheel-contains-a-credential-stealer-and-persistent-python-backdoor

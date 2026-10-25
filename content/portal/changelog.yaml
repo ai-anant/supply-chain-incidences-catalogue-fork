@@ -1,5 +1,38 @@
 entries:
 - date: '2026-10-25'
+  id: intake-2026-10-25-sources
+  title: Second sources for eMudhra, LiteLLM, Tensorlake and Graphalgo
+  items:
+  - 'AS311: the eMudhra CA key story now carries Checkmarx Zero''s account of
+    the April 2025 key-generation ceremony (a wrap/unwrap step produced a weak
+    second set, only the weak set was published), SafeDep''s developer response
+    guide, Aikido''s write-up and the Mozilla-run incident site with the eight
+    intermediates and the per-client patch table.'
+  - 'AS313: Socket recovered two earlier malicious workflow commits in
+    BerriAI/litellm, on 10 and 12 October, each adding cache.yml on a
+    short-lived branch and each recorded as a successful run. LiteLLM''s
+    follow-up traces initial access to an Agent Platform master key committed
+    to a public repository in May and never revoked, so the compromise window
+    is at least eleven days, not the two-hour release window. Description and
+    the compromised-token mapping updated; Socket, Wiz and Aikido write-ups
+    added as links.'
+  - 'AS302: the Tensorlake npm compromise now also cites Checkmarx Zero on the
+    hostage-token monitor that deletes a home directory.'
+  - 'AS40: ReversingLabs'' 21 October piece on Graphalgo moving into Terraform
+    providers and Go modules added as a second source. It reports Aikido''s
+    September research, so it is the same operation, not a new story.'
+  - 'Skipped: CVE-2026-111497 (Brotli, marketed as Node2Shell) and its Python,
+    Bazel Central Registry, workerd and DuckDB follow-ups are vulnerability
+    disclosures with no malicious publish. PHP2Shell, the BeyondTrust
+    CVE-2026-102764 exploitation and the Go x509 deny-list release are the
+    same class. GitHub changelog and cargo dependency-cooldown items are
+    platform defaults, not incidents.'
+  - 'Skipped as outside the catalogue''s scope: the Sansec deepveindrilling.com
+    wave is mass Magento storefront compromise through a product flaw and CMS
+    block injection, not a poisoned supplier artifact, and the Wiz ARTEX
+    expansion against other vendors'' identity providers is attempted
+    intrusion already carried in AS329.'
+- date: '2026-10-25'
   id: intake-2026-10-25
   title: Railway build secrets; OpenCode Console; Rank Math PRO; Zeabur
   items:
