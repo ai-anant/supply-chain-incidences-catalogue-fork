@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>T0219 Exfiltrate secrets through the CI platform&#x27;s own log store · Poisoned Pipeline</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script defer data-domain="poisonedpipeline.com" src="https://plausible.io/js/script.js"></script>
+
+</head>
+<body>
+
+    <header class="top">
+      <div class="bar">
+        <a class="brand" href="../index.html">Poisoned Pipeline</a>
+        <nav>
+          <a href="../index.html">Home</a>
+          <a href="../matrix.html">Technique matrix</a>
+          <a href="../cicd.html">CI/CD matrix</a>
+          <a href="../techniques/index.html">Techniques</a>
+          <a href="../mitigations/index.html">Mitigations</a>
+          <a href="../incidents/index.html">Incident mapping</a>
+          <a href="../platforms/index.html">Platforms</a>
+          <a href="../stories/index.html">Attack stories</a>
+          <a href="../guidance.html">Guidance</a>
+          <a href="../origins.html">Origins</a>
+          <a href="../talks.html">Talks</a>
+          <a href="../sources.html">Sources</a>
+          <a href="../changelog.html">Changelog</a>
+          <a href="../about.html">About</a>
+        </nav>
+      </div>
+    </header>
+<main>
+<p class="crumb">Poisoned Pipeline / <a href="index.html">Techniques</a> / T0219</p>
+
+        <p class="meta">T0219 · Exfiltration · TA11 · observed in 2 incident(s)</p>
+        <h1>Exfiltrate secrets through the CI platform&#x27;s own log store</h1>
+        <div class="chips"><span class="chip">CI/CD Posture</span> <span class="chip">Secrets Hygiene</span> <span class="chip">Code Security</span></div>
+        <p>The attacker does not send secrets anywhere. A pipeline run prints them<br>into its own job log, and the attacker then retrieves that log through<br>the CI platform&#x27;s public API from outside the victim&#x27;s network, deleting<br>the run afterwards. Nothing on the runner opens an outbound connection,<br>so egress filtering, network detection, proxy allow-lists and domain<br>reputation have no traffic to inspect or block: the exfiltration channel<br>is the platform&#x27;s own log retention and log-download API.</p><p>Two properties make it work. Secret masking is usually literal — the<br>platform redacts a value only where it appears verbatim — so encoding the<br>value first (base32, base64, hex) prints it in full. And a job&#x27;s token<br>permissions do not scope the secrets context, so a workflow that grants<br>its GITHUB_TOKEN nothing can still read every repository secret.</p><p>Distinct from T0192 (an adversary reading logs that already contain<br>sensitive data) and from T0145 (data leaving the network disguised inside<br>a legitimate channel). Here the data never leaves the network; the<br>attacker collects it later, from the platform side.</p>
+        <h2>Where this idea came from</h2><p class="meta">Public incident / advisory</p><p>This catalogue, from the Gheist campaign (Wiz Research, 25 October 2026) where a planted sync-check workflow printed base32-encoded repository secrets into its own job log and the operator downloaded the log through the GitHub API, deleting the run seconds later. No attacker domain and no outbound connection, so egress controls saw nothing. Distinct from the GhostAction family (AS304), which posts secrets out to an attacker IP.</p><ul class='refs'><li><a href="https://www.wiz.io/blog/gheist-attempted-scaled-abuse-of-stolen-github-tokens-stumbles" rel="noopener">https://www.wiz.io/blog/gheist-attempted-scaled-abuse-of-stolen-github-tokens-stumbles</a></li></ul>
+        
+        <h2>Mitigations</h2>
+        <p class='muted'>None linked yet.</p>
+        <h2>Detections</h2>
+        <p class='muted'>None linked yet.</p>
+        <h2>Observed in incidents (2)</h2><ul><li><a href="../incidents/AS334.html">Stolen GitHub tokens planted a secret-dumping workflow in 850+ accounts and pulled the logs back through the API</a></li><li><a href="../incidents/AS334.html">Stolen GitHub tokens planted a secret-dumping workflow in 850+ accounts and pulled the logs back through the API</a></li></ul>
+        <h2>References</h2>
+        <ul class='refs'><li><a href="https://www.wiz.io/blog/gheist-attempted-scaled-abuse-of-stolen-github-tokens-stumbles" rel="noopener">https://www.wiz.io/blog/gheist-attempted-scaled-abuse-of-stolen-github-tokens-stumbles</a></li></ul>
+        
+</main>
+
+    <footer>
+      <p>Powered by <a href="https://cyfinoid.com">Cyfinoid Research</a></p>
+    </footer>
+</body>
+</html>
