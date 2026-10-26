@@ -1,0 +1,240 @@
+id: AS334
+type: Attack Story
+date: 2026-10
+platforms:
+  - git
+  - github-actions
+
+summary: Stolen GitHub tokens planted a secret-dumping workflow in 850+ accounts and pulled the logs back through the API
+
+description: |
+  Wiz Research published Gheist on 25 October 2026, an automated
+  campaign that it had been tracking since 15 September. For every
+  repository a stolen GitHub token can reach, the tool creates a branch
+  named ci-sync- plus six random characters and commits one file,
+  .github/workflows/sync-check.yml, with the message "ci: sync config".
+  The commit is unsigned and authored as the token's owner. The push
+  starts the workflow, which prints the repository's secrets into its
+  own run log; the tool then downloads that log through the GitHub API
+  and deletes the run seconds later. Its API requests carry the user
+  agent gheist, which is where the campaign name comes from.
+
+  The workflow is four lines of shell. It runs on push with
+  permissions: {}, on ubuntu-latest with timeout-minutes 6, and runs
+  env | base32 -w 120 followed by echo -n "${{ toJSON(secrets) }}" |
+  base32 -w 120. Three things make that work. GitHub masks a secret in
+  a log only where it appears verbatim, so a base32 copy prints in
+  full. permissions: {} restricts the job's GITHUB_TOKEN, which the
+  operator does not need, but does not restrict the secrets context.
+  And where a repository has deployment environments the tool lists
+  them in a job matrix with environment: ${{ matrix.environment }}, so
+  environment-scoped secrets, often production credentials, are printed
+  too. Because the secrets leave through GitHub's own API, there is no
+  attacker domain and no outbound connection to block.
+
+  Wiz recovered more than 13,500 planted branches across more than 850
+  compromised accounts, ranging from personal projects to enterprise
+  organizations' private repositories. Two variants ran in parallel:
+  Tool A used a hexadecimal branch suffix and the plain payload, Tool B
+  a base36 suffix, and Tool B added timeout-minutes and the environment
+  matrix within hours of its first run on 28 September and selected a
+  payload per repository. On 19 October Tool B inserted a base32 echo
+  between the dumps that prints LAFA==== as a separator, evidently for
+  the operator's log parser. Hours later it pushed a second job,
+  sync-host, with runs-on: self-hosted, apparently only to repositories
+  that have a registered self-hosted runner. That job writes .gdmp_pat,
+  .gdmp_patg and .gdmp_sweep, logs each stage under a
+  "===== gdmp-pivot: <stage> =====" header, and covers host details and
+  crontab; a recursive search of the home directory, workspace and
+  system paths for 31 token formats (including Anthropic, Hugging Face,
+  Groq and NVIDIA keys), private keys, .env files, Terraform state and
+  shell history; the environment of every process from
+  /proc/*/environ; the host filesystem through the Docker socket; AWS
+  instance-role credentials and GCP and Azure metadata; GitHub Actions
+  and GitLab runner credential files; and the Kubernetes service
+  account token. Wiz notes the job is buggy: it looks for the wrong
+  runner key file, its URL-credential regex is broken, and it does not
+  collect GCP or Azure tokens, so intended capability is larger than
+  what it demonstrated.
+
+  The split between public and private repositories decided whether any
+  of this executed. GitHub has held potentially malicious workflow runs
+  in public repositories for collaborator approval since 28 July 2026,
+  and every public Gheist run Wiz checked sits at action_required
+  across all variants, including the self-hosted job. That hold does
+  not apply to private repositories or GitHub Enterprise Server. There,
+  audit logs show runs on ci-sync-* branches completing and then being
+  deleted by the gheist user agent, and CloudTrail shows the
+  organizations' own workflows running on those branches and assuming
+  AWS roles, which is proof Actions executed without approval and the
+  signal that finds the campaign without GitHub logs.
+
+  The affected accounts are shared with other operations, which Wiz
+  reads as one credential pool serving several actors. On 6 October 391
+  accounts renamed about 1,461 repositories to cracked-software lures
+  such as fl-studio-crack and solana-sniper-lite, which wiped 610
+  ci-sync branches as a side effect; 166 of those accounts never appear
+  in Gheist activity. On 18 October 25 Gheist accounts each created a
+  "Windows RDP Runner" repository within nine minutes, apparently for
+  free compute. Three victims re-pushed their Gheist commits on 19 and
+  20 October with a PolinRider-style loader appended to vite.config.js
+  and, twice, an api.js that package.json runs before dev and build. 57
+  accounts from Gheist's first phase were also Megalodon victims in
+  May. The credential sources Wiz could trace fit that picture:
+  infostealer logs, and tokens exposed in earlier supply-chain
+  compromises such as the Trivy compromise in March.
+
+  As of 24 October the attack was ongoing and evolving, and roughly two
+  thirds of the implicated accounts were no longer available on GitHub,
+  which Wiz reads as response activity after its report to GitHub.
+  Gheist is distinct from GhostAction, which uses different workflow
+  files and exfiltrates to 193.32.204[.]199.
+
+attacks:
+  - attack: One stolen token commits a secret-dumping workflow to every reachable repository
+    index: 1
+    stage: supply-chain
+    customer: 0
+    supplier: 2
+    techniques:
+      - techniqueID: T0112
+        techName: Compromised token
+        tactic: Initial Access
+        comment: |
+          More than 850 accounts, with tokens that Wiz traces to
+          infostealer logs and to tokens exposed in earlier
+          supply-chain compromises, the Trivy compromise in March
+          among them. Inside enterprise organizations the tool cycled
+          through the tokens of several users and automation accounts
+          within minutes. Commits are unsigned and authored as the
+          token's owner.
+      - techniqueID: T0169
+        techName: Push implants across repositories
+        tactic: Lateral Movement
+        comment: |
+          More than 13,500 planted branches across more than 850
+          accounts, including private repositories of enterprise
+          organizations. Each is ci-sync- plus six characters, holding
+          one new file, .github/workflows/sync-check.yml, and nothing
+          else, committed as "ci: sync config". The tool clones private
+          repositories before planting the workflow.
+      - techniqueID: T0166
+        techName: Trigger pipeline execution
+        tactic: Execution
+        comment: |
+          The workflow is on: [push], so the planting commit starts the
+          run by itself. No dispatch and no approval step of the
+          attacker's own. In private repositories and GitHub Enterprise
+          Server the run completed.
+      - techniqueID: T0140
+        techName: Harvest tokens from environment variables
+        tactic: Credential Access
+        comment: |
+          The job runs env | base32 -w 120 and echo -n
+          "${{ toJSON(secrets) }}" | base32 -w 120. toJSON(secrets)
+          takes every repository secret at once rather than a named
+          list, and permissions: {} does not scope the secrets context.
+          Where deployment environments exist, a job matrix with
+          environment: ${{ matrix.environment }} reaches
+          environment-scoped, often production, secrets too.
+      - techniqueID: T0192
+        techName: Sensitive information in logs
+        tactic: Collection
+        comment: |
+          The secrets are printed into the run's own log. The base32
+          step is what defeats masking, because GitHub redacts a secret
+          only where it appears verbatim.
+      - techniqueID: T0219
+        techName: Exfiltrate secrets through the CI platform's own log store
+        tactic: Exfiltration
+        comment: |
+          The operator downloads the log through the GitHub API seconds
+          after the run and deletes the run, following a base36 hash of
+          the log through the API. There is no attacker domain and no
+          outbound connection from the runner, so egress control has
+          nothing to block.
+      - techniqueID: T0199
+        techName: Secret leak
+        tactic: Impact
+        comment: |
+          Wiz does not count exposed secrets. It reports the footprint
+          instead: 13,500 branches and 850 accounts, roughly two thirds
+          of them gone from GitHub by 24 October.
+  - attack: Self-hosted runner job sweeps the host behind the runner
+    index: 2
+    stage: post-supply-chain
+    customer: 1
+    supplier: 0
+    techniques:
+      - techniqueID: T0132
+        techName: Overprivileged CI/CD Runners
+        tactic: Privilege Escalation
+        comment: |
+          sync-host is runs-on: self-hosted and reaches the host
+          filesystem by starting a container through the Docker socket
+          with the host root filesystem mounted, then repeating its
+          search there.
+      - techniqueID: T0184
+        techName: Harvesting sensitive information from files
+        tactic: Credential Access
+        comment: |
+          Recursive search of the home directory, workspace and system
+          paths for 31 token formats (Anthropic, Hugging Face, Groq and
+          NVIDIA among them), private keys, .env files, Terraform state
+          and shell history, plus GitHub Actions and GitLab runner
+          credential files and the Kubernetes service account token.
+          The job looks for the wrong runner key file and its
+          URL-credential regex is broken, so it found less than it was
+          written to.
+      - techniqueID: T0140
+        techName: Harvest tokens from environment variables
+        tactic: Credential Access
+        comment: |
+          The environment of every process, read from /proc/*/environ,
+          rather than the job's own environment.
+      - techniqueID: T0183
+        techName: Harvesting short-lived token
+        tactic: Credential Access
+        comment: |
+          AWS instance-role credentials and the GCP and Azure metadata
+          endpoints are in the job's list. Wiz says it does not
+          actually collect the GCP or Azure tokens.
+      - techniqueID: T0219
+        techName: Exfiltrate secrets through the CI platform's own log store
+        tactic: Exfiltration
+        comment: |
+          Results are logged under "===== gdmp-pivot: <stage> ====="
+          headers in the job's own log, and the helper files .gdmp_pat,
+          .gdmp_patg and .gdmp_sweep are written beside it. Wiz does
+          not report a separate exfiltration channel for this job.
+
+gaps:
+  - No technique covers deleting the workflow run and the branch after
+    retrieval. T0219's comment carries it. Wiz's hunting guidance is the
+    run record itself — a run on a ci-sync-* branch deleted within a
+    minute of completing.
+  - Not mapped as T0145. The runner sends nothing out; the operator
+    collects the log from the platform side, so there is no disguised
+    outbound channel to describe.
+  - Not mapped as T0176. GitHub's approval hold for public repositories
+    since 28 July 2026 is a platform control that stopped every public
+    run at action_required. The attacker did not disable it, and private
+    repositories and GitHub Enterprise Server were never covered by it.
+  - Credentials recovered from the artifacts found by sync-host are not
+    their own technique. T0184 and T0183 describe the collection.
+  - The lure-repository rename by 391 accounts on 6 October, the 25
+    "Windows RDP Runner" repositories on 18 October and the three
+    PolinRider re-pushes on 19-20 October are other operations on the
+    same compromised accounts, not stages of Gheist. The PolinRider
+    loader itself stays on AS45, Megalodon on its own story.
+  - Gheist is not GhostAction. Different workflow filenames, no
+    193.32.204[.]199, and the runs reach action_required where
+    GhostAction's own copies ran. AS304 keeps that campaign.
+  - Wiz names the Trivy compromise as one source of the tokens without
+    dating or linking it. That incident is not re-described here.
+  - Cloud credential use against AWS Secrets Manager hours after the
+    workflow runs is reported for enterprise organizations without a
+    named technique step. It is noted, not mapped.
+
+links:
+  - https://www.wiz.io/blog/gheist-attempted-scaled-abuse-of-stolen-github-tokens-stumbles

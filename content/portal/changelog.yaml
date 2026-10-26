@@ -1,4 +1,37 @@
 entries:
+- date: '2026-10-26'
+  id: intake-2026-10-26
+  title: Gheist mass workflow planting on stolen GitHub tokens
+  items:
+  - 'AS334: Wiz Research''s Gheist campaign, tracked since 15 September, plants
+    .github/workflows/sync-check.yml on a ci-sync-<six chars> branch in every repository
+    a stolen GitHub token can reach — 13,500 branches across 850 accounts, personal
+    projects to enterprise private repositories. The workflow prints env and toJSON(secrets)
+    into its own run log in base32, which defeats verbatim secret masking, and the
+    operator pulls the log back through the GitHub API and deletes the run seconds
+    later. A job matrix over deployment environments reaches environment-scoped
+    production secrets. A later self-hosted job sweeps the runner host through the
+    Docker socket, /proc/*/environ and 31 token formats. GitHub''s July approval
+    hold stopped every public-repo run at action_required; private repositories
+    and GitHub Enterprise Server had no such hold.'
+  - 'T0219: added for the mechanism that carries this story — secrets printed into
+    a pipeline''s own log and collected later from the platform''s log API, so no
+    attacker domain and no outbound connection exist for egress control to catch.
+    Distinct from T0192 (reading logs that already hold secrets) and T0145 (data
+    hidden inside a legitimate outbound channel).'
+  - 'Skipped: CVE-2026-111497 (Brotli, Node2Shell/Broccoli2Shell) and the PHP2Shell
+    follow-ups remain vulnerability disclosures with no malicious publish, and the
+    XRPL payment-engine overflow is a bug in the chain''s own code. Cargo dependency
+    cooldowns and the GitHub package firewall are platform defaults.'
+  - 'Skipped as already carried or out of scope: Sansec''s deepveindrilling.com
+    wave is mass Magento storefront compromise through a CMS block loader, not a
+    poisoned supplier artifact; Mandiant''s AOMEI update-channel tampering is AS309;
+    the Midnight Blizzard hash-expansion piece is targeted espionage with lure files;
+    CrowdStrike''s four agentic AI actors are intrusions, not supply-chain publishes.'
+  - 'Same-day recheck: SafeDep (testmetest, hugo-paper/mevn-cli), CloudSEK (NEBULA),
+    Socket''s LiteLLM timeline, StepSecurity (GhostAction), ReversingLabs (Graphalgo),
+    Aikido, Checkmarx Zero, RubyGems, Rust blog and the GitHub changelog carried
+    nothing new that is not already mapped.'
 - date: '2026-10-25'
   id: intake-2026-10-25-sources
   title: Second sources for eMudhra, LiteLLM, Tensorlake and Graphalgo

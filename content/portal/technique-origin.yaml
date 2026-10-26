@@ -1030,3 +1030,16 @@ techniques:
     sources:
     - https://scotthelme.co.uk/eight-bits-of-trust-emudhras-ca-keys-cracked-in-milliseconds/
     - https://security.googleblog.com/2013/01/enhancing-digital-certificate-security.html
+  T0219:
+    summary: Exfiltrate secrets through the CI platform's own log store
+    tactic: Exfiltration
+    kind: incident
+    note: This catalogue, from the Gheist campaign (Wiz Research, 25 October
+      2026) where a planted sync-check workflow printed base32-encoded
+      repository secrets into its own job log and the operator downloaded the
+      log through the GitHub API, deleting the run seconds later. No attacker
+      domain and no outbound connection, so egress controls saw nothing.
+      Distinct from the GhostAction family (AS304), which posts secrets out to
+      an attacker IP.
+    sources:
+    - https://www.wiz.io/blog/gheist-attempted-scaled-abuse-of-stolen-github-tokens-stumbles
