@@ -1,4 +1,39 @@
 entries:
+- date: '2026-10-27'
+  id: intake-2026-10-27
+  title: Convertr checkout skimmer served from its own Plausible analytics tracker
+  items:
+  - 'AS335: Sansec found a card skimmer inside the Plausible tracker that Convertr
+    serves from analytics.convertr.app.br. Convertr runs the storefronts and checkout
+    of dozens of Brazilian fashion brands; every one of them loads that one file,
+    which from 24 October carried the stock Plausible script plus an obfuscated block
+    decoded and eval''d only on checkout.convertr pages. It reads card number, expiry,
+    CVV, cardholder name and CPF from the payment form and from the checkout''s own
+    payment-API requests, then posts a base64 pipe-delimited record to 1x0.is when
+    the order is placed. Sansec suspects CVE-2026-8467 in Plausible CE (RCE through
+    /storybook without a login, fixed in 3.2.1 in May 2026) as the entry point but
+    could not confirm it without server logs; Convertr installed 3.0 in 2025 and never
+    updated. The payload was rewritten within two days to match Convertr''s exact API
+    field names. Convertr had not responded and was still serving the skimmer at 15:34
+    UTC on 26 October.'
+  - 'Skipped: Wiz''s Pwn Request Reckoning (26 October) is an analysis of what survives
+    GitHub''s 2026 checkout, cache-token and event-policy changes — SHA pinning below
+    the July backport, custom checkout scripts, issue_comment and repository_dispatch,
+    artifact poisoning, self-hosted runner state, allow-unsafe-pr-checkout. It is
+    guidance about a vulnerability class with no malicious publish behind it.'
+  - 'Skipped: Socket''s eMudhra/Brotli piece (26 October) reads across AS311 and the
+    Brotli CVE already carried or skipped, and its LiteLLM timeline is the piece
+    already cited on AS313. Aikido''s PHP2Shell patching images post and CrowdStrike''s
+    obstacles-to-weaponizing note are patch guidance for CVE-2026-109618/109619 and
+    CVE-2026-111497, both still vulnerability disclosures with no malicious publish.'
+  - 'Skipped as already carried or out of scope: StepSecurity''s OVHcloud CLI release-swap
+    analysis is AS310; Socket''s threat-intel campaign-impact post, vlt skills release,
+    Deno acquisition and Cargo cooldowns coverage are product or ecosystem news; the
+    CISA KEV additions and ICS advisories of 22-26 October are vulnerability cataloguing;
+    the GitHub changelog carried no npm or Actions security-default change.'
+  - 'Same-day recheck: SafeDep (newest 22 October, testmetest and the eMudhra response
+    guide), ReversingLabs, CloudSEK, Checkmarx Zero, Morphisec, Mandiant, the Rust blog,
+    RubyGems and OpenSourceMalware carried nothing new that is not already mapped.'
 - date: '2026-10-26'
   id: intake-2026-10-26
   title: Gheist mass workflow planting on stolen GitHub tokens
