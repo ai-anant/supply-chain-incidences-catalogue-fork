@@ -226,7 +226,7 @@
         ],
         "url": "techniques/T0121.html",
         "description": "A compromised legitimate artifact attack is a type of cyber attack in which an attacker replaces a legitimate package or container image with a malicious version, often without the knowledge of the original developer or distributor. \nThis attack takes advantage of the trust that users place in legitimate packages or container images, which are often used to deploy software across multiple environments.\nIn this attack, the attacker may gain access to the repository or registry where the legitimate artifact is stored, either by exploiting a vulnerability or through social engineering tactics. \nThe attacker then replaces the legitimate artifact with a malicious version that contains malware or other harmful code. \nOnce the compromised artifact is downloaded and deployed, it can compromise the system and potentially cause significant harm, such as stealing sensitive data or taking control of the system.\n",
-        "incidentCount": 70
+        "incidentCount": 71
       },
       {
         "id": "T0141",
@@ -358,7 +358,7 @@
         ],
         "url": "techniques/T0122.html",
         "description": "The use of 3rd party Github actions is very common. \nSimilar to using 3rd party libraries this can also introduce security risks - a malicious Github action has access to very sensitive information - i.e exfiltrating environment variables, including backdoors or malware in source code, infecting build artifacts.\n",
-        "incidentCount": 7
+        "incidentCount": 8
       },
       {
         "id": "T0123",
@@ -552,7 +552,7 @@
         ],
         "url": "techniques/T0180.html",
         "description": "Services (servers) compromise attack in the supply chain is a type of attack that targets the servers hosting the software development and distribution infrastructure. \nThis attack can happen when an attacker gains access to the server through a vulnerability, misconfiguration, or social engineering attack. \nOnce the attacker gains access to the server, they can modify the source code or software packages being distributed to include malicious code or backdoors. \nThis attack can compromise multiple software projects and potentially all users who download or use the compromised software.\n",
-        "incidentCount": 10
+        "incidentCount": 11
       },
       {
         "id": "T0181",
@@ -577,7 +577,7 @@
         ],
         "url": "techniques/T0194.html",
         "description": "Outdated software components can impact various aspects of security. \nThe obvious one is, of course, outdated software usually means unpatched vulnerabilities. \nBut it also means that in case of an incident it will be harder for an organization to react and patch because it has higher risk of breaking functionality.\n",
-        "incidentCount": 2
+        "incidentCount": 3
       },
       {
         "id": "T0197",
@@ -602,7 +602,7 @@
         ],
         "url": "techniques/T0205.html",
         "description": "Instead of poisoning a package registry or source repository, the attacker\ntakes over a widely embedded CDN hostname, tag manager, or hosted JavaScript\nasset (domain expiry, registrar hijack, or operator acquisition) and serves\nmalicious content to every site that loads it. Polyfill.io (2024) is the\nreference case: a trusted script URL became a drive-by supply-chain implant\nfor hundreds of thousands of properties. This catalogue previously had no technique\nthat named this web-asset supply chain.\n",
-        "incidentCount": 10
+        "incidentCount": 11
       },
       {
         "id": "T0209",
@@ -729,7 +729,7 @@
         ],
         "url": "techniques/T0159.html",
         "description": "Malicious artifact execution refers to an attack where an attacker injects or modifies a software component with malicious code that is executed when the component is used by a downstream system in the CI/CD process. \nWhen a CI/CD process lacks sufficient mechanisms to validate the integrity of code and artifacts, attackers can insert malicious code that appears to be harmless. \nThis allows the malicious code to pass through the pipeline undetected, potentially causing harm in the CI/CD process or in production.\nThe malicious code can be executed in the CI/CD process or even in production.\n",
-        "incidentCount": 58
+        "incidentCount": 59
       },
       {
         "id": "T0166",
@@ -1090,7 +1090,7 @@
         ],
         "url": "techniques/T0207.html",
         "description": "Consumers are supposed to verify packages, containers, and third-party\nscripts (checksums, signatures, Sigstore, Subresource Integrity). The\nattacker relies on that check never running, or supplies a matching but\nattacker-controlled signature. OWASP CICD-SEC-9 names the control gap;\nthis technique is the attacker side. Polyfill.io hotlinks without SRI and\nunsigned CI helper scripts are typical realizations.\n",
-        "incidentCount": 8
+        "incidentCount": 9
       },
       {
         "id": "T0208",
@@ -1512,7 +1512,7 @@
         ],
         "url": "techniques/T0201.html",
         "description": "The downstream consequence of a software supply-chain attack: customers who\nconsumed a poisoned update, package, or service are themselves breached.\nSolarWinds Orion, 3CX, Codecov, and Polyfill.io are canonical examples \u2014\nthe supplier is the delivery vehicle; customer environments are the prize.\nModeling this as its own Impact technique lets defenders map \"what happened\nto us because we trusted a vendor\" without collapsing it into a generic\nbackdoor label.\n",
-        "incidentCount": 19
+        "incidentCount": 20
       },
       {
         "id": "T0216",

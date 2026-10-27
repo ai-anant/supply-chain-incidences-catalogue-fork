@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Brazilian Magecart group appended a card skimmer to Convertr&#x27;s own Plausible analytics script, skimming every merchant checkout · Poisoned Pipeline</title>
+<link rel="stylesheet" href="../assets/style.css">
+<script defer data-domain="poisonedpipeline.com" src="https://plausible.io/js/script.js"></script>
+
+</head>
+<body>
+
+    <header class="top">
+      <div class="bar">
+        <a class="brand" href="../index.html">Poisoned Pipeline</a>
+        <nav>
+          <a href="../index.html">Home</a>
+          <a href="../matrix.html">Technique matrix</a>
+          <a href="../cicd.html">CI/CD matrix</a>
+          <a href="../techniques/index.html">Techniques</a>
+          <a href="../mitigations/index.html">Mitigations</a>
+          <a href="../incidents/index.html">Incident mapping</a>
+          <a href="../platforms/index.html">Platforms</a>
+          <a href="../stories/index.html">Attack stories</a>
+          <a href="../guidance.html">Guidance</a>
+          <a href="../origins.html">Origins</a>
+          <a href="../talks.html">Talks</a>
+          <a href="../sources.html">Sources</a>
+          <a href="../changelog.html">Changelog</a>
+          <a href="../about.html">About</a>
+        </nav>
+      </div>
+    </header>
+<main>
+<p class="crumb">Poisoned Pipeline / <a href="index.html">Incidents</a> / AS335</p>
+
+        <p class="meta">AS335 · 2026-10</p>
+        <h1>A Brazilian Magecart group appended a card skimmer to Convertr&#x27;s own Plausible analytics script, skimming every merchant checkout</h1>
+        <p><a class="plat" href="../platforms/cdn.html">CDN / web assets</a></p>
+        <p>Sansec published this on 26 October 2026. From 24 October, checkouts on<br>Convertr sent shoppers&#x27; card details and CPF numbers to 1x0.is. Convertr<br>hosts the online stores and checkout for dozens of Brazilian fashion<br>brands, which it says have sold more than R$2 billion (about EUR 320<br>million) through the platform. Every one of them loads a tracker from<br>analytics.convertr.app.br, Convertr&#x27;s own Plausible analytics server. The<br>attacker appended a skimmer to that one file, so every Convertr checkout<br>loaded it. Sansec notified Convertr and received no response; at 15:34 UTC<br>on 26 October the skimmer was still being served.</p><p>Plausible is an open-source alternative to Google Analytics that Convertr<br>runs from the Community Edition on its own server. The infected tracker is<br>the stock Plausible script followed by an obfuscated block of character<br>codes that is decoded and run with eval. It activates only on<br>checkout.convertr pages: it reads the card number, expiry, CVV, cardholder<br>name and CPF from the payment form and from the requests the checkout sends<br>to its payment API, and when the shopper places the order it posts the lot<br>to 1x0.is. The record is pipe-delimited, base64-encoded, sent with fetch in<br>no-cors mode with keepalive set, and ends in the tag ctr. The attacker<br>revised it within two days: the 24 October build matched generic field<br>patterns, and the 26 October build targets the exact field names of the<br>Convertr payment API. The CPF is the Brazilian taxpayer number, which<br>Brazilian checkouts ask for with card payments and which banks use to<br>identify their customers.</p><p>Sansec suspects, but cannot confirm, that the entry point was<br>CVE-2026-8467 in Plausible CE. Convertr installed version 3.0 in 2025 and<br>never updated it; 3.0.0 through 3.2.0 let anyone run commands on the server<br>through a component library exposed at /storybook without a login. Plausible<br>fixed it in 3.2.1 in May 2026. Sansec has not seen Convertr&#x27;s server logs.<br>Plausible serves the tracker from a file on disk, so whoever changes that<br>file infects every site that embeds it.</p><p>The group is the Brazilian Magecart operation Sansec has tracked since July<br>2024 across dozens of Magento, OpenCart and WooCommerce stores, almost all<br>in Brazil, some of which ran its skimmer for nearly two years. Until now it<br>hacked stores one at a time; Convertr is the first supply-chain attack Sansec<br>has seen from it. A day earlier the same 1x0.is/ws endpoint appeared in a<br>skimmer on another Brazilian store. Its fingerprints have not changed since<br>2024: a pipe-delimited card number, month, year, CVV, CPF and name ending in<br>a short victim tag, exfiltration endpoints with Portuguese names such as<br>cartao.php and pagamento.php, short three-letter .is domains rotated every<br>few months, some builds posting to Discord webhooks or to scripts planted on<br>other hacked stores, and dedicated skimmers for e.Rede, PagSeguro, Pagar.me<br>and Mercado Pago plus a variant that swaps the PIX payment QR code for the<br>attacker&#x27;s own. Browsers cache the infected script for up to 24 hours, so<br>shoppers stay exposed that long after a cleanup.</p>
+        <h2>Mapped techniques</h2>
+        <ul><li><a href="../techniques/T0205.html">T0205</a> Compromise third-party CDN or hosted web asset</li><li><a href="../techniques/T0180.html">T0180</a> Compromise services / servers</li><li><a href="../techniques/T0194.html">T0194</a> Outdated software components</li><li><a href="../techniques/T0122.html">T0122</a> Vulnerability in third-party CI/CD actions</li><li><a href="../techniques/T0121.html">T0121</a> Compromised legitimate artifact</li><li><a href="../techniques/T0159.html">T0159</a> Malicious artifact execution</li><li><a href="../techniques/T0207.html">T0207</a> Skip or forge artifact integrity verification</li><li><a href="../techniques/T0201.html">T0201</a> Customers compromised</li></ul>
+        <h2><span class="stage">supply-chain</span> Convertr analytics server</h2><div class="card"><p class="meta"><a href="../techniques/T0205.html">T0205</a> · Initial Access · Compromise third-party CDN or hosted web asset</p><p>analytics.convertr.app.br serves the Plausible tracker that every<br>Convertr merchant checkout embeds. Changing one file on that host<br>put the attacker&#x27;s code in front of all of them, with no merchant<br>deploy and no change to any store&#x27;s own source.</p></div><div class="card"><p class="meta"><a href="../techniques/T0180.html">T0180</a> · Initial Access · Compromise services / servers</p><p>The compromised service is Convertr&#x27;s own analytics server, not a<br>package registry. Plausible serves the tracker as a file on disk,<br>so write access to that file was the whole attack. Sansec could not<br>confirm the entry point because it did not see the server logs.</p></div><div class="card"><p class="meta"><a href="../techniques/T0194.html">T0194</a> · Initial Access · Outdated software components</p><p>Convertr installed Plausible CE 3.0 in 2025 and never updated it.<br>The flaw Sansec suspects was fixed in 3.2.1 in May 2026, five<br>months before the skimmer appeared.</p></div><div class="card"><p class="meta"><a href="../techniques/T0122.html">T0122</a> · Initial Access · Vulnerability in third-party dependency</p><p>CVE-2026-8467: versions 3.0.0 through 3.2.0 run commands on the<br>server through a component library exposed at /storybook without<br>authentication. Sansec lists it as the suspected entry point and<br>says explicitly that it is unconfirmed.</p></div><div class="card"><p class="meta"><a href="../techniques/T0121.html">T0121</a> · Resource Development · Compromised legitimate artifact</p><p>The stock Plausible script kept its URL, its name and its<br>consumers. The obfuscated character-code block appended after it,<br>decoded and run with eval, is the only difference, and it fires<br>only on checkout.convertr pages.</p></div><h2><span class="stage">post-supply-chain</span> Convertr merchant checkouts and their shoppers</h2><div class="card"><p class="meta"><a href="../techniques/T0159.html">T0159</a> · Execution · Malicious artifact execution</p><p>Every Convertr merchant checkout loaded the tracker from the<br>platform&#x27;s analytics host, so the skimmer ran in the checkout<br>origin of each brand&#x27;s store rather than in an attacker page.</p></div><div class="card"><p class="meta"><a href="../techniques/T0207.html">T0207</a> · Defense Evasion · Skip or forge artifact integrity</p><p>The tracker was hotlinked from Convertr&#x27;s server with no<br>Subresource Integrity to fail when the bytes changed, and browsers<br>cached the infected copy for up to 24 hours. Sansec&#x27;s advice to<br>merchants is to diff priv/tracker/js/ against the official Plausible<br>release.</p></div><div class="card"><p class="meta"><a href="../techniques/T0201.html">T0201</a> · Impact · Customers compromised</p><p>What left the checkout was the shopper&#x27;s card number, expiry, CVV,<br>cardholder name and CPF, posted to 1x0.is when the order was<br>placed. Sansec&#x27;s practical advice is for anyone who paid by card on<br>a Brazilian store since 24 October where the payment page contained<br>checkout.convertr to block and replace the card.</p></div>
+        <div class="card gaps"><h3>Framework gaps noted</h3><ul><li>The skimmer reads both the payment form and the checkout&#x27;s own payment-API requests. That combination is what makes the 26 October build accurate against Convertr&#x27;s field names; no technique separates reading a form from reading the API traffic of the page that renders it.</li><li>Exfiltration here is a first-party fetch to 1x0.is with no-cors and keepalive. The catalogue has no separate technique for beacon-style card exfiltration from a hijacked analytics script, so T0201 carries the outcome and T0159 the execution.</li><li>The attacker revised the payload twice in two days, tightening field matching after the first build. Not mapped; it is refinement, not a distinct stage.</li><li>CVE-2026-8467 is the suspected, unconfirmed entry point. It is mapped as T0122 and T0194 with that caveat, not as a confirmed initial access.</li><li>The group&#x27;s other work — one-at-a-time Magento, OpenCart and WooCommerce store compromises since July 2024, and the separate Brazilian store using the same 1x0.is/ws endpoint a day earlier — is context for attribution, not part of this supply-chain event.</li></ul></div>
+        <h2>Sources</h2>
+        <ul class='refs'><li><a href="https://sansec.io/research/convertr-plausible-supply-chain-attack" rel="noopener">https://sansec.io/research/convertr-plausible-supply-chain-attack</a></li></ul>
+        
+</main>
+
+    <footer>
+      <p>Powered by <a href="https://cyfinoid.com">Cyfinoid Research</a></p>
+    </footer>
+</body>
+</html>
