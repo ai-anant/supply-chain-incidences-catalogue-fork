@@ -210,7 +210,7 @@ pre { overflow-x: auto; }
   h1 { font-size: 1.45rem; }
   h2 { font-size: 1.05rem; }
   .stats { gap: 0.5rem; }
-  .stat { flex: 1 1 calc(50% - 0.5rem); min-width: calc(50% - 0.5rem); padding: 0.6rem 0.7rem; }
+  .stat { flex: 1 1 calc(50% - 0.5rem); min-width: 0; padding: 0.6rem 0.7rem; }
   .stat b { font-size: 1.15rem; }
   .dash { grid-template-columns: 1fr; }
   .bars { height: 7rem; }
