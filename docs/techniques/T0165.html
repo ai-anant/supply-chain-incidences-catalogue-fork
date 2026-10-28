@@ -10,10 +10,13 @@
 </head>
 <body>
 
-    <header class="top">
+    <header class="top" id="site-header">
       <div class="bar">
         <a class="brand" href="../index.html">Poisoned Pipeline</a>
-        <nav>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+        <nav id="site-nav">
           <a href="../index.html">Home</a>
           <a href="../matrix.html">Technique matrix</a>
           <a href="../cicd.html">CI/CD matrix</a>
@@ -53,5 +56,24 @@
     <footer>
       <p>Powered by <a href="https://cyfinoid.com">Cyfinoid Research</a></p>
     </footer>
+<script>
+(function () {
+  var h = document.getElementById('site-header');
+  var b = h && h.querySelector('.nav-toggle');
+  if (!b) return;
+  function close() { h.classList.remove('nav-open'); b.setAttribute('aria-expanded', 'false'); }
+  b.addEventListener('click', function (e) {
+    e.stopPropagation();
+    var open = h.classList.toggle('nav-open');
+    b.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && h.classList.contains('nav-open')) { close(); b.focus(); }
+  });
+  document.addEventListener('click', function (e) {
+    if (h.classList.contains('nav-open') && !h.contains(e.target)) close();
+  });
+})();
+</script>
 </body>
 </html>
